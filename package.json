@@ -1,0 +1,8 @@
+{
+  "name": "impulso-5-estrellas",
+  "version": "1.0.0",
+  "description": "Landing page para automatización de reseñas",
+  "dependencies": {
+    "resend": "^3.0.0"
+  }
+}

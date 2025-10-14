@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Premium - Reputación Real</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .plan-status {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        .plan-status h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .plan-status p {
+            margin: 5px 0;
+            opacity: 0.95;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: -40px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .message-editor {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .message-editor:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .char-counter {
+            text-align: right;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .preview-container {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .preview-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .access-code-box {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .access-code-box h4 {
+            color: #667eea;
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .code-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin: 10px 0;
+        }
+
+        .code-instructions {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-save {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6b7280, #4b5563);
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading-screen {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .error-screen {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .error-screen .error-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .plan-badge.starter {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .plan-badge.pro {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1f2937;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-card {
+                padding: 25px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-save {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div>
+            <div class="spinner" style="width: 50px; height: 50px; margin: 0 auto 20px;"></div>
+            <h2>Verificando tu acceso...</h2>
+            <p style="color: #666;">Por favor espera un momento</p>
+        </div>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="error-screen" class="error-screen" style="display: none;">
+        <div>
+            <div class="error-icon">⚠️</div>
+            <h2>Acceso no autorizado</h2>
+            <p style="color: #666; margin: 20px 0;">Necesitas un plan premium para acceder a esta página.</p>
+            <a href="index.html#pricing" class="cta-button">Ver planes disponibles</a>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div id="dashboard-content" style="display: none;">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="container">
+                <h1 style="margin: 0 0 10px 0; font-size: 2.5rem;">Dashboard Premium</h1>
+                <p style="margin: 0; font-size: 1.1rem; opacity: 0.95;">Personaliza la experiencia de tus clientes</p>
+                
+                <div class="plan-status">
+                    <h3>
+                        ✅ <span id="plan-name">Plan Pro</span> Activo
+                        <span id="plan-badge" class="plan-badge pro">PRO</span>
+                    </h3>
+                    <p>Vence: <strong id="expiration-date">--</strong></p>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Código de acceso: <span id="header-code">--</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            
+            <!-- Mensaje para Plan Starter -->
+            <div id="starter-message" class="dashboard-card" style="display: none; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border: 2px solid #1976d2;">
+                <h2 class="section-title" style="color: #1565c0;">
+                    ℹ️ Plan Starter Activo
+                </h2>
+                <p style="color: #0d47a1; font-size: 1.1rem; line-height: 1.6;">
+                    Estás usando el <strong>Plan Starter</strong>. Para desbloquear la edición de mensajes personalizados 
+                    y acceder al dashboard completo, actualiza al <strong>Plan Pro</strong>.
+                </p>
+                <div style="margin-top: 20px;">
+                    <a href="https://reputacionreal.lemonsqueezy.com/buy/263e8065-2d7f-438b-8073-ebc6cf49b9b2" 
+                       class="cta-button" 
+                       target="_blank" 
+                       rel="noopener">
+                        ⬆️ Actualizar a Plan Pro - $79/mes
+                    </a>
+                </div>
+            </div>
+
+            <!-- Editor de Mensaje (solo Plan Pro) -->
+            <div id="pro-editor" class="dashboard-card" style="display: none;">
+                <h2 class="section-title">
+                    ✏️ Mensaje Personalizado
+                </h2>
+                <p class="section-description">
+                    Edita el mensaje que recibirán tus clientes en el email de solicitud de reseñas.
+                    Este mensaje aparecerá destacado en el correo.
+                </p>
+
+                <div class="form-group">
+                    <label for="custom-message-editor">Tu mensaje personalizado:</label>
+                    <textarea 
+                        id="custom-message-editor" 
+                        class="message-editor"
+                        placeholder="Ejemplo: ¡Gracias por elegirnos! Tu opinión es muy valiosa para nosotros y nos ayuda a mejorar día a día..."
+                        maxlength="500"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="char-count">0</span> / 500 caracteres
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button onclick="saveMessage()" class="cta-button btn-save">
+                        💾 Guardar cambios
+                    </button>
+                    <button onclick="resetMessage()" class="cta-button btn-secondary">
+                        🔄 Restaurar mensaje por defecto
+                    </button>
+                </div>
+
+                <div id="status-message" class="status-message"></div>
+
+                <!-- Vista Previa -->
+                <div class="preview-container">
+                    <div class="preview-label">
+                        👁️ Vista previa del email
+                    </div>
+                    
+                    <div style="max-width: 600px; margin: 0 auto; background-color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                        <!-- Header con gradiente -->
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 20px; text-align: center;">
+                            <h3 style="color: white; margin: 0; font-size: 24px; font-weight: 700;">
+                                ¡Hola Juan! 👋
+                            </h3>
+                            <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">
+                                Gracias por visitar Tu Negocio
+                            </p>
+                        </div>
+
+                        <!-- Contenido principal -->
+                        <div style="padding: 30px 20px;">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="font-size: 40px; margin-bottom: 15px;">⭐⭐⭐⭐⭐</div>
+                                <h4 style="color: #333; margin: 0 0 10px 0; font-size: 20px;">
+                                    ¿Cómo fue tu experiencia?
+                                </h4>
+                            </div>
+
+                            <!-- Mensaje personalizado PREVIEW -->
+                            <div style="background: #f8f9ff; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #667eea;">
+                                <p id="preview-message" style="color: #333; margin: 0; font-size: 15px; line-height: 1.6;">
+                                    Nos encantaría conocer tu experiencia y que compartas tu opinión con otros clientes potenciales.
+                                </p>
+                            </div>
+
+                            <!-- Botón de acción -->
+                            <div style="text-align: center; margin: 25px 0;">
+                                <span style="display: inline-block; background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-size: 16px; font-weight: 600;">
+                                    ⭐ Dejar mi reseña en Google
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información de Acceso -->
+            <div class="dashboard-card">
+                <h2 class="section-title">
+                    🔑 Tu Código de Acceso
+                </h2>
+                <p class="section-description">
+                    Guarda este código para volver a acceder a tu dashboard en el futuro.
+                </p>
+
+                <div class="access-code-box">
+                    <h4>Código de Acceso</h4>
+                    <div class="code-display" id="access-code-display">--</div>
+                    <p class="code-instructions">
+                        Accede desde: <strong>tudominio.com/dashboard.html?code=TU_CODIGO</strong>
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="index.html#app" class="cta-button">
+                        📧 Ir a enviar emails →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>¿Necesitas ayuda? Contáctanos a soporte@reputacionreal.com</p>
+                <p>&copy; 2025 Reputación Real. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mensaje por defecto
+        const DEFAULT_MESSAGE = 'Nos encantaría conocer tu experiencia y que compartas tu opinión con otros clientes potenciales. Tu reseña nos ayuda a seguir mejorando cada día.';
+
+        // Verificar acceso al cargar la página
+        function checkAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+                const devMode = urlParams.get('dev');
+    if (devMode === 'true') {
+        const planType = urlParams.get('plan') || 'Pro'; // 'Starter' o 'Pro'
+        const accessCode = 'DEV-' + planType.toUpperCase();
+        const expirationDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // 1 año
+        
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            showDashboard(accessCode, expirationDate, planType);
+        }, 500);
+        return;
+    }
+            
+            // Parámetros de Lemonsqueezy
+            const orderId = urlParams.get('order_id');
+            const status = urlParams.get('status');
+            const source = urlParams.get('source');
+            
+            // Código de acceso manual
+            const code = urlParams.get('code');
+
+            const loadingScreen = document.getElementById('loading-screen');
+            const errorScreen = document.getElementById('error-screen');
+            const dashboardContent = document.getElementById('dashboard-content');
+
+            // Simular verificación (1 segundo)
+            setTimeout(() => {
+                // Pago exitoso de Lemonsqueezy
+                if (status === 'success' && orderId && source === 'lemonsqueezy') {
+                    // Generar código único
+                    const accessCode = generateAccessCode();
+                    const expirationDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+                    
+                    // Detectar plan basado en URL (puedes mejorar esto con webhooks)
+                    // Por ahora asumimos Plan Pro si viene de Lemonsqueezy
+                    const planType = 'Pro';
+                    
+                    // Guardar en localStorage
+                    localStorage.setItem('premium_accessCode', accessCode);
+                    localStorage.setItem('premium_planType', planType);
+                    localStorage.setItem('premium_expirationDate', expirationDate.toISOString());
+                    localStorage.setItem('premium_paymentSource', 'Lemonsqueezy');
+                    
+                    // Mostrar dashboard
+                    showDashboard(accessCode, expirationDate, planType);
+                }
+                // Si viene con código de acceso
+                else if (code) {
+                    const savedCode = localStorage.getItem('premium_accessCode');
+                    const expirationDate = localStorage.getItem('premium_expirationDate');
+                    const planType = localStorage.getItem('premium_planType') || 'Pro';
+
+                    if (code === savedCode && expirationDate && new Date(expirationDate) > new Date()) {
+                        // Código válido y no expirado
+                        showDashboard(code, new Date(expirationDate), planType);
+                    } else {
+                        // Código inválido o expirado
+                        loadingScreen.style.display = 'none';
+                        errorScreen.style.display = 'flex';
+                    }
+                }
+                else {
+                    // Sin acceso
+                    loadingScreen.style.display = 'none';
+                    errorScreen.style.display = 'flex';
+                }
+            }, 1000);
+        }
+
+        function showDashboard(accessCode, expirationDate, planType) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('dashboard-content').style.display = 'block';
+
+            // Actualizar información
+            document.getElementById('access-code-display').textContent = accessCode;
+            document.getElementById('header-code').textContent = accessCode;
+            document.getElementById('expiration-date').textContent = expirationDate.toLocaleDateString('es-AR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            document.getElementById('plan-name').textContent = `Plan ${planType}`;
+
+            // Mostrar contenido según el plan
+            if (planType === 'Pro') {
+                // Plan Pro: mostrar editor
+                document.getElementById('pro-editor').style.display = 'block';
+                document.getElementById('starter-message').style.display = 'none';
+                document.getElementById('plan-badge').className = 'plan-badge pro';
+                document.getElementById('plan-badge').textContent = 'PRO';
+
+                // Cargar mensaje guardado o usar el por defecto
+                const savedMessage = localStorage.getItem('premium_customMessage') || DEFAULT_MESSAGE;
+                document.getElementById('custom-message-editor').value = savedMessage;
+                updatePreview();
+                updateCharCount();
+            } else {
+                // Plan Starter: mostrar mensaje de upgrade
+                document.getElementById('pro-editor').style.display = 'none';
+                document.getElementById('starter-message').style.display = 'block';
+                document.getElementById('plan-badge').className = 'plan-badge starter';
+                document.getElementById('plan-badge').textContent = 'STARTER';
+            }
+        }
+
+        function generateAccessCode() {
+            return 'PREMIUM-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+        }
+
+        function updateCharCount() {
+            const textarea = document.getElementById('custom-message-editor');
+            if (textarea) {
+                const count = textarea.value.length;
+                document.getElementById('char-count').textContent = count;
+            }
+        }
+
+        function updatePreview() {
+            const textarea = document.getElementById('custom-message-editor');
+            const previewElement = document.getElementById('preview-message');
+            if (textarea && previewElement) {
+                const message = textarea.value || DEFAULT_MESSAGE;
+                previewElement.textContent = message;
+            }
+        }
+
+        function saveMessage() {
+            const message = document.getElementById('custom-message-editor').value.trim();
+            const statusDiv = document.getElementById('status-message');
+
+            if (!message) {
+                showStatus('El mensaje no puede estar vacío', 'error');
+                return;
+            }
+
+            // Guardar en localStorage
+            localStorage.setItem('premium_customMessage', message);
+            
+            showStatus('✅ Mensaje guardado exitosamente', 'success');
+        }
+
+        function resetMessage() {
+            if (confirm('¿Restaurar el mensaje por defecto? Se perderán los cambios no guardados.')) {
+                document.getElementById('custom-message-editor').value = DEFAULT_MESSAGE;
+                localStorage.removeItem('premium_customMessage');
+                updatePreview();
+                updateCharCount();
+                showStatus('Mensaje restaurado al por defecto', 'success');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status-message status-' + type;
+            statusDiv.style.display = 'block';
+
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 4000);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAccess();
+
+            const textarea = document.getElementById('custom-message-editor');
+            if (textarea) {
+                textarea.addEventListener('input', () => {
+                    updateCharCount();
+                    updatePreview();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
