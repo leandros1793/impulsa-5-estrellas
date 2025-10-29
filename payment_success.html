@@ -96,28 +96,51 @@
             border: 2px solid #667eea;
         }
 
+        .plan-info.pro {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe8f0 100%);
+            border-color: #f093fb;
+        }
+
         .plan-info h3 {
             color: #667eea;
             margin-bottom: 10px;
             font-size: 18px;
         }
+
+        .plan-info.pro h3 {
+            color: #f5576c;
+        }
+
+        .features {
+            text-align: left;
+            margin-top: 15px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            color: #666;
+            margin: 8px 0;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="success-container">
-        <div class="success-icon">🎉</div>
+        <div class="success-icon" id="icon">🎉</div>
         <h1>¡Pago Exitoso!</h1>
-        <p>Tu plan ha sido activado correctamente.</p>
+        <p id="plan-text"><strong>Tu plan ha sido activado correctamente</strong></p>
         
         <div id="plan-info" class="plan-info" style="display: none;">
             <h3 id="plan-name"></h3>
-            <p style="margin: 0; color: #666;">Redirigiendo a tu panel...</p>
+            <ul class="features" id="features-list"></ul>
         </div>
         
         <div class="loading"></div>
         
         <p class="redirect-info">
-            Serás redirigido automáticamente en unos segundos...
+            Redirigiendo a tu panel en <span id="countdown">3</span> segundos...<br>
+            <small>O <a href="#" id="manual-link" style="color: #667eea; text-decoration: none;">haz clic aquí</a> para ir ahora</small>
         </p>
     </div>
 
@@ -126,56 +149,124 @@
         const urlParams = new URLSearchParams(window.location.search);
         const plan = urlParams.get('plan'); // 'starter' o 'pro'
         
-        // Mostrar información del plan
+        // Elementos del DOM
         const planInfo = document.getElementById('plan-info');
         const planName = document.getElementById('plan-name');
+        const featuresList = document.getElementById('features-list');
+        const icon = document.getElementById('icon');
+        const manualLink = document.getElementById('manual-link');
+        const planText = document.getElementById('plan-text');
+        
+        let redirectUrl = 'index.html'; // Por defecto
         
         if (plan === 'starter') {
+            // Configuración Plan Starter
+            icon.textContent = '🎉';
             planName.textContent = '✨ Plan Starter Activado';
+            planText.innerHTML = '<strong>Plan Starter activado correctamente</strong>';
+            
+            featuresList.innerHTML = `
+                <li>✅ Envío de emails ilimitado</li>
+                <li>✅ Carga manual y por CSV/Excel</li>
+                <li>✅ Mensaje profesional incluido</li>
+                <li>✅ Soporte por email</li>
+            `;
+            
             planInfo.style.display = 'block';
+            planInfo.classList.remove('pro');
             
             // Activar plan en localStorage
             localStorage.setItem('plan_starter_active', 'true');
             localStorage.setItem('plan_activated_date', new Date().toISOString());
+            localStorage.setItem('plan_type', 'starter');
             
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                window.location.href = 'dashboard-starter.html';
-            }, 2000);
+            redirectUrl = 'dashboard_starter.html';
             
         } else if (plan === 'pro') {
+            // Configuración Plan Pro
+            icon.textContent = '⭐';
             planName.textContent = '⭐ Plan Pro Activado';
+            planText.innerHTML = '<strong>Plan Pro activado correctamente</strong>';
+            
+            featuresList.innerHTML = `
+                <li>✅ Todo del Plan Starter</li>
+                <li>✅ Mensajes personalizables</li>
+                <li>✅ Dashboard premium</li>
+                <li>✅ Logo personalizado</li>
+                <li>✅ Soporte prioritario</li>
+            `;
+            
             planInfo.style.display = 'block';
+            planInfo.classList.add('pro');
             
             // Activar plan en localStorage
             localStorage.setItem('plan_pro_active', 'true');
             localStorage.setItem('plan_activated_date', new Date().toISOString());
+            localStorage.setItem('plan_type', 'pro');
             
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                window.location.href = 'dashboard-pro.html';
-            }, 2000);
+            redirectUrl = 'dashboard_pro.html';
             
         } else {
-            // Si no hay plan especificado, redirigir a inicio
+            // Si no hay plan especificado
             planName.textContent = '⚠️ Plan no especificado';
+            planText.innerHTML = '<strong>Redirigiendo a la página principal...</strong>';
             planInfo.style.display = 'block';
-            
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
+            redirectUrl = 'index.html';
         }
         
-        // Backup: Si el usuario hace clic, redirigir inmediatamente
-        document.querySelector('.success-container').addEventListener('click', function() {
-            if (plan === 'starter') {
-                window.location.href = 'dashboard-starter.html';
-            } else if (plan === 'pro') {
-                window.location.href = 'dashboard-pro.html';
-            } else {
-                window.location.href = 'index.html';
+        // Actualizar link manual
+        manualLink.href = redirectUrl;
+        
+        // Countdown de 3 segundos
+        let seconds = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+            
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = redirectUrl;
             }
+        }, 1000);
+        
+        // Backup: Si el usuario hace clic en cualquier parte, redirigir inmediatamente
+        document.querySelector('.success-container').addEventListener('click', function() {
+            clearInterval(countdownInterval);
+            window.location.href = redirectUrl;
+        });
+        
+        // También permitir clic en el link manual
+        manualLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            clearInterval(countdownInterval);
+            window.location.href = redirectUrl;
         });
     </script>
 </body>
 </html>
+```
+
+---
+
+## 🎯 **CÓMO FUNCIONA:**
+
+Este archivo detecta automáticamente el plan desde la URL:
+
+- `payment_success.html?plan=starter` → Activa Plan Starter → Redirige a `dashboard_starter.html`
+- `payment_success.html?plan=pro` → Activa Plan Pro → Redirige a `dashboard_pro.html`
+- Sin parámetro → Redirige a `index.html`
+
+---
+
+## ⚙️ **CONFIGURACIÓN EN LEMONSQUEEZY:**
+
+### **Plan Starter:**
+```
+https://impulsa-5-estrellas.vercel.app/payment_success.html?plan=starter
+```
+
+### **Plan Pro:**
+```
+https://impulsa-5-estrellas.vercel.app/payment_success.html?plan=pro
