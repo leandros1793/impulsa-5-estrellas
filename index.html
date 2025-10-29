@@ -6,7 +6,6 @@
     <title>Impulso 5 Estrellas - Transformá tu reputación online en ventas reales</title>
     
     <!-- Librerías externas -->
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <!-- Estilos -->
@@ -103,11 +102,11 @@
     </section>
 
     <!-- Precios -->
-    <!-- SECCIÓN DE PRECIOS - Reemplazar en index.html -->
+  <!-- SECCIÓN DE PRECIOS - Reemplazar en index.html -->
 <section class="pricing" id="pricing">
     <div class="container">
         <h2 class="section-title">Elegí el plan perfecto para tu negocio</h2>
-        <p class="section-subtitle">Todos los planes incluyen 14 días de garantía</p>
+        <p class="section-subtitle">🎁 Prueba gratis primero • Solo pagas cuando quieras enviar emails</p>
         
         <div class="pricing-grid" style="max-width: 900px; margin: 0 auto; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
             
@@ -131,15 +130,21 @@
                     <li class="disabled">❌ Logo personalizado</li>
                 </ul>
                 
-                <a href="https://reputacionreal.lemonsqueezy.com/buy/2772ecfa-3582-4804-85e0-0391e85f893c" 
+                <!-- NUEVO: Botón principal para probar gratis -->
+                <a href="dashboard_starter.html" 
                    class="cta-button secondary" 
-                   target="_blank" 
-                   rel="noopener">
-                    🚀 Comenzar ahora
+                   style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;">
+                    🎁 Probar Gratis Ahora
                 </a>
                 
-                <p style="text-align: center; margin-top: 15px; color: #666; font-size: 0.9rem;">
-                    💳 Pago seguro con tarjeta
+                <!-- Link secundario para ir directo a pagar -->
+                <p style="text-align: center; margin-top: 15px;">
+                    <a href="https://reputacionreal.lemonsqueezy.com/buy/2772ecfa-3582-4804-85e0-0391e85f893c?checkout[custom][plan]=starter" 
+                       target="_blank" 
+                       rel="noopener"
+                       style="color: #667eea; text-decoration: none; font-size: 0.9rem; font-weight: 600;">
+                        O comprar directamente →
+                    </a>
                 </p>
             </div>
 
@@ -163,19 +168,37 @@
                     <li>✅ Configuración inicial asistida</li>
                 </ul>
                 
-                <a href="https://reputacionreal.lemonsqueezy.com/buy/263e8065-2d7f-438b-8073-ebc6cf49b9b2" 
-                   class="cta-button" 
-                   target="_blank" 
-                   rel="noopener">
-                    ⭐ Comenzar ahora
+                <!-- NUEVO: Botón principal para probar gratis -->
+                <a href="dashboard_pro.html" 
+                   class="cta-button">
+                    🎁 Probar Gratis Ahora
                 </a>
                 
-                <p style="text-align: center; margin-top: 15px; color: white; font-size: 0.9rem; opacity: 0.9;">
-                    💳 Pago seguro con tarjeta
+                <!-- Link secundario para ir directo a pagar -->
+                <p style="text-align: center; margin-top: 15px;">
+                    <a href="https://reputacionreal.lemonsqueezy.com/buy/263e8065-2d7f-438b-8073-ebc6cf49b9b2?checkout[custom][plan]=pro" 
+                       target="_blank" 
+                       rel="noopener"
+                       style="color: white; text-decoration: none; font-size: 0.9rem; font-weight: 600; opacity: 0.9;">
+                        O comprar directamente →
+                    </a>
                 </p>
             </div>
 
         </div>
+        
+        <!-- NUEVO: Banner explicativo -->
+        <div style="max-width: 700px; margin: 40px auto 0; background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%); padding: 25px; border-radius: 15px; text-align: center; border: 2px solid #667eea;">
+            <h4 style="color: #333; margin-bottom: 15px; font-size: 18px;">💡 ¿Cómo funciona la prueba gratis?</h4>
+            <p style="color: #666; margin: 0; line-height: 1.6; font-size: 15px;">
+                <strong>1.</strong> Configurás tu negocio completamente gratis<br>
+                <strong>2.</strong> Ves el preview del email que recibirán tus clientes<br>
+                <strong>3.</strong> Cuando quieras enviar emails → ahí recién pagás<br>
+                <strong style="color: #667eea;">Sin tarjeta de crédito • Sin trucos • 100% transparente</strong>
+            </p>
+        </div>
+    </div>
+</section>
 
         <!-- Garantía de pago -->
         <div class="pricing-guarantee">
@@ -202,13 +225,13 @@
 
 <!-- ACTUALIZAR TAMBIÉN LOS BOTONES DEL HERO Y CTA FINAL -->
 
-<!-- En el Hero section (línea ~40 aprox) -->
-<a href="https://reputacionreal.lemonsqueezy.com/buy/263e8065-2d7f-438b-8073-ebc6cf49b9b2" 
-   class="cta-button" 
-   target="_blank" 
-   rel="noopener">
-    ✅ Empezá ahora - Plan Pro
-</a>
+            <!-- BOTÓN ACTUALIZADO -->
+            <a href="https://reputacionreal.lemonsqueezy.com/buy/263e8065-2d7f-438b-8073-ebc6cf49b9b2" 
+               class="cta-button" 
+               target="_blank" 
+               rel="noopener">
+                ✅ Empezá ahora - Plan Pro
+            </a>
 
 <!-- En el CTA Final (línea ~400 aprox) -->
 <section class="hero" style="min-height: 60vh;">
@@ -524,23 +547,7 @@
     </div>
 </div>
 
-<script>
-// Función para actualizar preview en tiempo real (Plan Pro)
-function updateProPreview() {
-    const textarea = document.getElementById('custom-message-editable');
-    const preview = document.getElementById('pro-message-preview');
-    const counter = document.getElementById('char-count-app');
-    
-    if (textarea && preview) {
-        const message = textarea.value || 'Nos encantaría conocer tu experiencia y que compartas tu opinión con otros clientes potenciales. Tu reseña nos ayuda a seguir mejorando cada día.';
-        preview.textContent = message;
-    }
-    
-    if (textarea && counter) {
-        counter.textContent = textarea.value.length;
-    }
-}
-</script>
+
                     
                     <small style="color: #666; display: block; margin-top: 15px;">
                         ✅ <strong>Este es el email profesional que recibirán tus clientes</strong><br>

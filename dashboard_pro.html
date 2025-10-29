@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Pro - Impulso 5 Estrellas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Banner Plan Pro */
+        .plan-banner {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #d63384;
+        }
+
+        .plan-banner h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .plan-banner p {
+            opacity: 0.95;
+            font-size: 14px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Preview Section */
+        .preview-section {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .email-preview {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+
+        .email-header h3 {
+            color: white;
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .email-header p {
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+        }
+
+        .email-body {
+            padding: 20px 0;
+        }
+
+        .email-stars {
+            text-align: center;
+            font-size: 36px;
+            margin: 20px 0;
+        }
+
+        .email-message {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+        }
+
+        .email-button {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .email-button a {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* Client Management */
+        .client-list {
+            margin-top: 20px;
+        }
+
+        .client-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .client-info {
+            flex: 1;
+        }
+
+        .client-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .client-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .client-actions button {
+            padding: 8px 20px;
+            margin-left: 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-sent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .client-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .client-actions {
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .client-actions button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner Plan Pro -->
+    <div class="plan-banner">
+        <h2>🎁 Prueba Gratuita del Plan Pro</h2>
+        <p>Configura y personaliza todo gratis • Solo pagas cuando quieras enviar emails</p>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>⭐ Panel Pro - Personalización Total</h1>
+            <p>Automatiza y personaliza tus solicitudes de reseñas</p>
+        </div>
+
+        <div class="content">
+            <!-- Success Message -->
+            <div id="success-message" class="success-message"></div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('config')">⚙️ Configuración</button>
+                <button class="tab" onclick="switchTab('clients')">👥 Clientes</button>
+                <button class="tab" onclick="switchTab('send')">📧 Enviar</button>
+            </div>
+
+            <!-- Tab: Configuración -->
+            <div id="tab-config" class="tab-content active">
+                <!-- Configuración del Negocio -->
+                <div class="form-section">
+                    <h2>📍 Configuración del Negocio</h2>
+                    
+                    <div class="form-group">
+                        <label for="business-name">Nombre del Negocio *</label>
+                        <input type="text" id="business-name" placeholder="Ej: Café Delicias" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="business-type">Tipo de Negocio</label>
+                        <select id="business-type">
+                            <option value="">Selecciona una categoría</option>
+                            <option value="restaurante">Restaurante</option>
+                            <option value="café">Café</option>
+                            <option value="bar">Bar</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="spa">Spa</option>
+                            <option value="gimnasio">Gimnasio</option>
+                            <option value="peluquería">Peluquería</option>
+                            <option value="clínica">Clínica</option>
+                            <option value="taller">Taller</option>
+                            <option value="tienda">Tienda</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="google-maps-link">Link de Reseñas de Google Maps *</label>
+                        <input type="url" id="google-maps-link" placeholder="https://g.page/r/..." required>
+                        <small class="form-hint">
+                            📌 Busca tu negocio en Google Maps → "Compartir" → "Reseñas" → Copia el link
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Mensaje Personalizado (EDITABLE) -->
+                <div class="form-section">
+                    <h2>✨ Mensaje Personalizado (Exclusivo Plan Pro)</h2>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        Personaliza el mensaje que recibirán tus clientes. Puedes editarlo completamente:
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="custom-message">Tu Mensaje Personalizado *</label>
+                        <textarea id="custom-message" 
+                                  placeholder="Escribe aquí tu mensaje personalizado..."
+                                  oninput="updatePreview(); updateCharCounter();">Nos encantaría conocer tu experiencia y que compartas tu opinión con otros clientes potenciales. Tu reseña nos ayuda a seguir mejorando cada día.</textarea>
+                        <div class="char-counter">
+                            <span id="char-count">156</span>/500 caracteres
+                        </div>
+                        <small class="form-hint">
+                            💡 Tip: Sé auténtico y menciona algo específico de tu negocio
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Preview del Email -->
+                <div class="preview-section">
+                    <h2 style="color: #333; margin-bottom: 20px;">📧 Vista Previa en Tiempo Real</h2>
+                    
+                    <div class="email-preview">
+                        <div class="email-header">
+                            <h3>¡Hola <span id="preview-client-name">[Nombre del Cliente]</span>! 👋</h3>
+                            <p>Gracias por visitar <strong><span id="preview-business-name">[Tu Negocio]</span></strong></p>
+                        </div>
+
+                        <div class="email-body">
+                            <div class="email-stars">⭐⭐⭐⭐⭐</div>
+                            
+                            <h4 style="text-align: center; color: #333; margin: 20px 0;">
+                                ¿Cómo fue tu experiencia?
+                            </h4>
+
+                            <p style="text-align: center; color: #666; margin: 20px 0;">
+                                ¡Esperamos que hayas tenido una excelente experiencia!
+                            </p>
+
+                            <div class="email-message">
+                                <p style="color: #333; margin: 0; line-height: 1.6;" id="preview-message">
+                                    Nos encantaría conocer tu experiencia y que compartas tu opinión con otros clientes potenciales. Tu reseña nos ayuda a seguir mejorando cada día.
+                                </p>
+                            </div>
+
+                            <div class="email-button">
+                                <a href="#">⭐ Dejar mi reseña en Google</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Clientes -->
+            <div id="tab-clients" class="tab-content">
+                <div class="form-section">
+                    <h2>👥 Gestión de Clientes</h2>
+                    
+                    <!-- Agregar Cliente Manual -->
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h3 style="color: #333; margin-bottom: 15px;">Agregar Cliente Manualmente</h3>
+                        
+                        <div class="form-group">
+                            <label for="client-name">Nombre del Cliente *</label>
+                            <input type="text" id="client-name" placeholder="Ej: María González">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="client-email">Email del Cliente *</label>
+                            <input type="email" id="client-email" placeholder="maria@ejemplo.com">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="addClient()">
+                            ➕ Agregar Cliente
+                        </button>
+                    </div>
+
+                    <!-- Importar desde CSV/Excel -->
+                    <div style="background: #f8f9ff; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px dashed #667eea;">
+                        <h3 style="color: #333; margin-bottom: 15px;">📊 Importar desde CSV/Excel</h3>
+                        <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+                            Sube un archivo con columnas: Nombre, Email
+                        </p>
+                        <input type="file" id="file-upload" accept=".csv,.xlsx,.xls" onchange="handleFileUpload(event)" style="display: none;">
+                        <button class="btn btn-success" onclick="document.getElementById('file-upload').click()">
+                            📁 Seleccionar Archivo
+                        </button>
+                    </div>
+
+                    <!-- Lista de Clientes -->
+                    <h3 style="color: #333; margin: 20px 0;">Clientes Cargados (<span id="client-count">0</span>)</h3>
+                    <div id="client-list" class="client-list">
+                        <p style="color: #999; text-align: center; padding: 40px;">
+                            No hay clientes cargados aún. Agrega clientes manualmente o importa un archivo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Enviar -->
+            <div id="tab-send" class="tab-content">
+                <div class="form-section">
+                    <h2>📧 Enviar Emails de Reseñas</h2>
+                    
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                        <h4 style="color: #856404; margin: 0 0 10px 0;">💡 Antes de enviar, asegúrate de:</h4>
+                        <ul style="color: #856404; margin: 10px 0; padding-left: 20px; font-size: 14px;">
+                            <li>Haber configurado tu negocio y link de Google Maps</li>
+                            <li>Haber agregado al menos un cliente</li>
+                            <li>Revisar el preview del email</li>
+                        </ul>
+                    </div>
+
+                    <div style="text-align: center; padding: 40px; background: #f8f9ff; border-radius: 15px;">
+                        <p style="color: #666; margin-bottom: 20px; font-size: 18px;">
+                            Clientes listos para enviar: <strong id="ready-count">0</strong>
+                        </p>
+                        
+                        <button id="send-all-button" class="btn btn-primary" onclick="sendAllEmails()" style="font-size: 18px; padding: 18px 40px;">
+                            📧 Enviar Emails a Todos los Clientes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3 style="color: #333; margin: 0;">Enviando emails...</h3>
+            <p style="color: #666; margin: 10px 0 0 0;" id="sending-progress">0 de 0 enviados</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // Estado global
+        let clients = [];
+
+        // Actualizar preview en tiempo real
+        document.getElementById('business-name')?.addEventListener('input', updatePreview);
+        document.getElementById('custom-message')?.addEventListener('input', updatePreview);
+
+        function updatePreview() {
+            const businessName = document.getElementById('business-name')?.value || '[Tu Negocio]';
+            const customMessage = document.getElementById('custom-message')?.value || 'Nos encantaría conocer tu experiencia...';
+            
+            document.getElementById('preview-business-name').textContent = businessName;
+            document.getElementById('preview-message').textContent = customMessage;
+        }
+
+        function updateCharCounter() {
+            const message = document.getElementById('custom-message').value;
+            document.getElementById('char-count').textContent = message.length;
+        }
+
+        // Cambiar tabs
+        function switchTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar el tab seleccionado
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Actualizar contadores
+            updateClientCounts();
+        }
+
+        // Agregar cliente
+        function addClient() {
+            const name = document.getElementById('client-name').value.trim();
+            const email = document.getElementById('client-email').value.trim();
+            
+            if (!name || !email) {
+                alert('⚠️ Por favor completa el nombre y email del cliente');
+                return;
+            }
+            
+            // Validar email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('⚠️ Por favor ingresa un email válido');
+                return;
+            }
+            
+            // Verificar duplicados
+            if (clients.some(c => c.email === email)) {
+                alert('⚠️ Este email ya está en la lista');
+                return;
+            }
+            
+            // Agregar cliente
+            clients.push({
+                id: Date.now(),
+                name: name,
+                email: email,
+                sent: false
+            });
+            
+            // Limpiar formulario
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-email').value = '';
+            
+            // Actualizar lista
+            updateClientsList();
+            
+            // Mostrar mensaje
+            showSuccessMessage(`✅ Cliente ${name} agregado correctamente`);
+        }
+
+        // Manejar carga de archivo
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+                    
+                    let added = 0;
+                    jsonData.forEach(row => {
+                        const name = row['Nombre'] || row['nombre'] || row['Name'] || row['name'];
+                        const email = row['Email'] || row['email'] || row['E-mail'] || row['e-mail'];
+                        
+                        if (name && email && !clients.some(c => c.email === email)) {
+                            clients.push({
+                                id: Date.now() + added,
+                                name: name,
+                                email: email,
+                                sent: false
+                            });
+                            added++;
+                        }
+                    });
+                    
+                    updateClientsList();
+                    showSuccessMessage(`✅ ${added} clientes importados correctamente`);
+                    
+                } catch (error) {
+                    alert('❌ Error al leer el archivo. Asegúrate de que tenga columnas "Nombre" y "Email"');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+            
+            // Reset input
+            event.target.value = '';
+        }
+
+        // Actualizar lista de clientes
+        function updateClientsList() {
+            const clientList = document.getElementById('client-list');
+            
+            if (clients.length === 0) {
+                clientList.innerHTML = '<p style="color: #999; text-align: center; padding: 40px;">No hay clientes cargados aún.</p>';
+            } else {
+                clientList.innerHTML = clients.map(client => `
+                    <div class="client-item">
+                        <div class="client-info">
+                            <div class="client-name">${client.name}</div>
+                            <div class="client-email">${client.email}</div>
+                        </div>
+                        <div class="client-actions">
+                            <span class="status-badge ${client.sent ? 'status-sent' : 'status-pending'}">
+                                ${client.sent ? '✅ Enviado' : '⏳ Pendiente'}
+                            </span>
+                            <button class="btn btn-primary" onclick="sendSingleEmail(${client.id})" ${client.sent ? 'disabled' : ''}>
+                                📧 Enviar
+                            </button>
+                            <button class="btn btn-secondary" onclick="removeClient(${client.id})">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            updateClientCounts();
+        }
+
+        // Actualizar contadores
+        function updateClientCounts() {
+            const totalClients = clients.length;
+            const pendingClients = clients.filter(c => !c.sent).length;
+            
+            document.getElementById('client-count').textContent = totalClients;
+            document.getElementById('ready-count').textContent = pendingClients;
+        }
+
+        // Eliminar cliente
+        function removeClient(clientId) {
+            if (confirm('¿Estás seguro de eliminar este cliente?')) {
+                clients = clients.filter(c => c.id !== clientId);
+                updateClientsList();
+                showSuccessMessage('✅ Cliente eliminado');
+            }
+        }
+
+        // Validar configuración del negocio
+        function validateBusinessConfig() {
+            const businessName = document.getElementById('business-name').value.trim();
+            const googleMapsLink = document.getElementById('google-maps-link').value.trim();
+            
+            if (!businessName) {
+                alert('⚠️ Por favor ingresa el nombre de tu negocio');
+                switchTab('config');
+                return false;
+            }
+            
+            if (!googleMapsLink) {
+                alert('⚠️ Por favor ingresa el link de Google Maps');
+                switchTab('config');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Mostrar modal de pago
+        function showPaymentModal() {
+            const modal = document.createElement('div');
+            modal.id = 'payment-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.85);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 50px; border-radius: 20px; max-width: 550px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.3s;">
+                    <div style="font-size: 64px; margin-bottom: 20px;">⭐</div>
+                    <h2 style="color: #333; margin-bottom: 15px; font-size: 28px;">Plan Pro Requerido</h2>
+                    <p style="color: #666; margin-bottom: 30px; line-height: 1.7; font-size: 16px;">
+                        Para personalizar mensajes y enviar emails ilimitados necesitas el Plan Pro.<br>
+                        <strong style="color: #667eea; font-size: 20px;">Solo $49 USD/mes</strong>
+                    </p>
+                    
+                    <div style="background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px; text-align: left; border: 2px solid #667eea;">
+                        <p style="margin: 8px 0; font-size: 15px;"><strong>✅ Todo del Plan Starter</strong></p>
+                        <p style="margin: 8px 0; font-size: 15px;"><strong>✅ Mensajes personalizables</strong></p>
+                        <p style="margin: 8px 0; font-size: 15px;"><strong>✅ Dashboard premium</strong></p>
+                        <p style="margin: 8px 0; font-size: 15px;"><strong>✅ Logo personalizado</strong></p>
+                        <p style="margin: 8px 0; font-size: 15px;"><strong>✅ Soporte prioritario</strong></p>
+                    </div>
+                    
+                    <a href="https://reputacionreal.lemonsqueezy.com/buy/TU_LINK_PLAN_PRO?checkout[custom][plan]=pro" 
+                       target="_blank"
+                       style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 18px 45px; text-decoration: none; border-radius: 50px; font-weight: 700; margin-bottom: 20px; font-size: 17px; box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">
+                        💳 Activar Plan Pro - $49/mes
+                    </a>
+                    
+                    <br>
+                    
+                    <button onclick="document.getElementById('payment-modal').remove()" 
+                            style="background: none; border: none; color: #999; cursor: pointer; text-decoration: underline; margin-top: 15px; font-size: 15px; padding: 10px 20px;">
+                        ← Volver y seguir configurando
+                    </button>
+                    
+                    <p style="color: #999; font-size: 12px; margin-top: 25px;">
+                        🔒 Pago 100% seguro procesado por Lemon Squeezy
+                    </p>
+                </div>
+                
+                <style>
+                    @keyframes slideUp {
+                        from { opacity: 0; transform: translateY(30px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    #payment-modal a:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+                    }
+                </style>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Enviar email a un solo cliente
+        async function sendSingleEmail(clientId) {
+            if (!validateBusinessConfig()) {
+                return;
+            }
+
+            // VERIFICAR si tiene el plan activo
+            const hasPlan = localStorage.getItem('plan_pro_active') === 'true';
+            
+            if (!hasPlan) {
+                showPaymentModal();
+                return;
+            }
+
+            const client = clients.find(c => c.id === clientId);
+            const businessName = document.getElementById('business-name').value.trim();
+            const businessType = document.getElementById('business-type').value;
+            const googleMapsLink = document.getElementById('google-maps-link').value.trim();
+            const customMessage = document.getElementById('custom-message').value.trim();
+
+            document.getElementById('loading-overlay').style.display = 'flex';
+
+            try {
+                const response = await fetch('/.netlify/functions/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        to_email: client.email,
+                        to_name: client.name,
+                        business_name: businessName,
+                        business_type: businessType || 'negocio',
+                        google_maps_url: googleMapsLink,
+                        custom_message: customMessage
+                    })
+                });
+
+                const data = await response.json();
+
+                document.getElementById('loading-overlay').style.display = 'none';
+
+                if (data.success) {
+                    client.sent = true;
+                    updateClientsList();
+                    showSuccessMessage(`✅ Email enviado exitosamente a ${client.name}!`);
+                } else {
+                    throw new Error(data.error || 'Error desconocido');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading-overlay').style.display = 'none';
+                alert(`❌ Error al enviar email a ${client.name}: ${error.message}`);
+            }
+        }
+
+        // Enviar emails a todos los clientes pendientes
+        async function sendAllEmails() {
+            if (!validateBusinessConfig()) {
+                return;
+            }
+
+            // VERIFICAR si tiene el plan activo
+            const hasPlan = localStorage.getItem('plan_pro_active') === 'true';
+            
+            if (!hasPlan) {
+                showPaymentModal();
+                return;
+            }
+
+            const pendingClients = clients.filter(c => !c.sent);
+            
+            if (pendingClients.length === 0) {
+                alert('⚠️ No hay clientes pendientes para enviar');
+                return;
+            }
+
+            if (!confirm(`¿Enviar emails a ${pendingClients.length} cliente(s)?`)) {
+                return;
+            }
+
+            const businessName = document.getElementById('business-name').value.trim();
+            const businessType = document.getElementById('business-type').value;
+            const googleMapsLink = document.getElementById('google-maps-link').value.trim();
+            const customMessage = document.getElementById('custom-message').value.trim();
+
+            document.getElementById('loading-overlay').style.display = 'flex';
+            
+            let sent = 0;
+            let failed = 0;
+
+            for (let client of pendingClients) {
+                document.getElementById('sending-progress').textContent = `${sent} de ${pendingClients.length} enviados`;
+                
+                try {
+                    const response = await fetch('/.netlify/functions/send-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            to_email: client.email,
+                            to_name: client.name,
+                            business_name: businessName,
+                            business_type: businessType || 'negocio',
+                            google_maps_url: googleMapsLink,
+                            custom_message: customMessage
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        client.sent = true;
+                        sent++;
+                    } else {
+                        failed++;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    failed++;
+                }
+                
+                // Pequeña pausa entre emails
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            document.getElementById('loading-overlay').style.display = 'none';
+            updateClientsList();
+            
+            if (failed === 0) {
+                showSuccessMessage(`🎉 ¡Todos los emails fueron enviados exitosamente! (${sent} enviados)`);
+            } else {
+                alert(`✅ Emails enviados: ${sent}\n❌ Errores: ${failed}`);
+            }
+        }
+
+        // Mostrar mensaje de éxito
+        function showSuccessMessage(message) {
+            const successMsg = document.getElementById('success-message');
+            successMsg.textContent = message;
+            successMsg.style.display = 'block';
+            
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        // Inicializar
+        updatePreview();
+        updateCharCounter();
+    </script>
+</body>
+</html>
